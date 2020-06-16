@@ -1,0 +1,6 @@
+framework module Pods_MLinViewSample {
+  umbrella header "Pods-MLinViewSample-umbrella.h"
+
+  export *
+  module * { export * }
+}
