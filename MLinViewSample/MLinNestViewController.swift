@@ -53,6 +53,16 @@ class MLinNestViewController: BaseViewController {
         it.mBottom = 10
     }
 
+    lazy var _time = UILabel() => { it in
+        it.font = UIFont.systemFont(ofSize: 13)
+        it.textColor = color_gray_CC
+        it.text = "18:00"
+        it.textAlignment = .center
+        it.numberOfLines = 0
+        it.mTop = 15
+        it.mRight = 15
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -62,10 +72,11 @@ class MLinNestViewController: BaseViewController {
         view.addSubview(_linear)
 
         _linear.addBatch(_icon, _container)
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        _linear.attach(_time, (.rightToRight , .parent), (.topToTop , .parent), (.leftToRight, _container))
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /// =>? 只有在左边参数非空的时候运行
         _container.child(1) =>? { it in
             it.isHidden = !it.isHidden

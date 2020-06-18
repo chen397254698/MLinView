@@ -199,7 +199,18 @@ class MLinVerticalViewController: BaseViewController {
         it.mLeft = 30
         it.mRight = 30
     }
+    
+    /// 让依附
+    lazy var _attachText = UILabel(mWidth: .wrap, mHeight: .wrap, mGravity: .right) => { it in
+        it.font = UIFont.systemFont(ofSize: 16)
+        it.textColor = color_gray_99
+        it.text = "文字依附"
 
+        it.mTop = 0
+        it.mRight = 10
+        it.mLeft = 40
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -209,6 +220,9 @@ class MLinVerticalViewController: BaseViewController {
         view.addSubview(_linear)
 
         _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn, _vScrollerBtn, _nestBtn)
+        
+        _linear.attach(_attachText, (.topToTop, .parent))
+       
         
         view.addSubview(_nextBtn)
         _nextBtn.snp.makeConstraints{

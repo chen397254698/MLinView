@@ -20,6 +20,27 @@ public enum Orientation {
     case horizontal
 }
 
+public enum AttachOrientation {
+    case topToTop
+    case topToBottom
+    case leftToLeft
+    case leftToRight
+    case rightToRight
+    case rightToLeft
+    case bottomToBottom
+    case bottomToTop
+
+    case centerToCenter
+
+    case centerXToCenterX
+    case centerXToLeft
+    case centerXToRight
+
+    case centerYToCenterY
+    case centerYToTop
+    case centerYToBottom
+}
+
 public enum MGravity: Int {
     /// 默认
     case origin = 0
@@ -113,20 +134,20 @@ open class MLinScrollView: UIScrollView {
 
 open class MLinView: UIView {
     /// 子控件
-//    fileprivate var arrangedSubviews = Array<MSubView>()
+    fileprivate var mSubviews = Array<UIView>()
 
     /// 滚动方向
     public var orientation: Orientation = .vertical
 
     private var scrollerAble = false
-    
+
     private var isDeinit = false
-    
+
     private var autoAttach = false
-    
+
     public var safeEdge = false
 
-    public init(orientation: Orientation = .vertical, mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, autoAttach : Bool = false) {
+    public init(orientation: Orientation = .vertical, mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, autoAttach: Bool = false) {
         self.orientation = orientation
         self.autoAttach = autoAttach
         super.init(frame: .zero)
@@ -151,15 +172,15 @@ open class MLinView: UIView {
     }
 
     public func child<T: UIView>(_ index: Int, _ type: T.Type = UIView.self as! T.Type) -> T? {
-        subviews.getOrNil(index) as? T
+        mSubviews.getOrNil(index) as? T
     }
-    
+
     open override func addSubview(_ view: UIView) {
         addSubview(view, mWidth: nil, mHeight: nil, mGravity: nil, forceLayout: true)
     }
 
     public func addSubview(_ view: UIView, mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, mGravity: MGravity? = nil, forceLayout: Bool = true) {
-        insertSubview(view, subviews.count, mWidth: mWidth, mHeight: mHeight, mGravity: mGravity, forceLayout: forceLayout)
+        insertSubview(view, mSubviews.count, mWidth: mWidth, mHeight: mHeight, mGravity: mGravity, forceLayout: forceLayout)
     }
 
     public func insertSubview(_ view: UIView, _ index: Int, mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, mGravity: MGravity? = nil, forceLayout: Bool = true) {
@@ -170,10 +191,11 @@ open class MLinView: UIView {
         if view.mWidth == .fit { view.mWidth = (orientation == .vertical ? .match : .wrap) }
         if view.mHeight == .fit { view.mHeight = (orientation == .vertical ? .wrap : .match) }
 
-        let lastView = subviews.getOrNil(index - 1)
+        let lastView = mSubviews.getOrNil(index - 1)
         view.addObserver(self, forKeyPath: "hidden", options: [.new], context: &UIView.mContext)
 
-        super.insertSubview(view, at: index)
+        super.addSubview(view)
+        mSubviews.insert(view, at: index)
 
         if forceLayout {
             layoutSubview(lastView)
@@ -181,7 +203,7 @@ open class MLinView: UIView {
     }
 
     public func addBatch<T: UIView>(_ views: T..., mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, insets: UIEdgeInsets? = nil, mGravity: MGravity? = nil) {
-        let lastView = subviews.last
+        let lastView = mSubviews.last
 
         views.forEach {
             $0 =>> { it in
@@ -198,16 +220,74 @@ open class MLinView: UIView {
         layoutSubview(lastView)
     }
 
-    open override func willRemoveSubview(_ subview: UIView) {
-        guard let i: Int = subviews.firstIndex(where: { $0 == subview }) else { return }
-        subviews[i].removeObserver(self, forKeyPath: "hidden", context: &UIView.mContext)
+    public func attach(_ view: UIView, _ constainst: (AttachOrientation, UIView?)...) {
+        super.addSubview(view)
+        constainst.forEach { entity in
+            let anchor = entity.1 ?? self
+            view.snp.makeConstraints { make in
+                switch entity.0 {
+                case .topToTop:
+                    make.top.equalTo(anchor.snp.top).offset(view.mTop)
+                    break
+                case .topToBottom:
+                    if entity.1 == nil { break }
+                    make.top.equalTo(anchor.snp.bottom).offset(view.mTop)
+                    break
+                case .leftToLeft:
+                    make.left.equalTo(anchor.snp.left).offset(view.mLeft)
+                    break
+                case .leftToRight:
+                    if entity.1 == nil { break }
+                    make.left.equalTo(anchor.snp.right).offset(view.mLeft)
+                    break
+                case .rightToRight:
+                    make.right.equalTo(anchor.snp.right).offset(-view.mRight)
+                    break
+                case .rightToLeft:
+                    if entity.1 == nil { break }
+                    make.right.equalTo(anchor.snp.left).offset(-view.mRight)
+                    break
+                case .bottomToBottom:
+                    make.bottom.equalTo(anchor.snp.bottom).offset(-view.mBottom)
+                    break
+                case .bottomToTop:
+                    if entity.1 == nil { break }
+                    make.bottom.equalTo(anchor.snp.top).offset(-view.mBottom)
+                    break
+                case .centerToCenter:
+                    make.center.equalTo(anchor.snp.center)
+                    break
+                case .centerXToCenterX:
+                    make.centerX.equalTo(anchor.snp.centerX).offset(view.mLeft - view.mRight)
+                    break
+                case .centerXToLeft:
+                    make.centerX.equalTo(anchor.snp.left).offset(view.mLeft)
+                    break
+                case .centerXToRight:
+                    make.centerX.equalTo(anchor.snp.right).offset(-view.mRight)
+                    break
+                case .centerYToCenterY:
+                    make.centerY.equalTo(anchor.snp.centerY).offset(view.mTop - view.mBottom)
+                    break
+                case .centerYToTop:
+                    make.centerY.equalTo(anchor.snp.top).offset(view.mTop)
+                    break
+                case .centerYToBottom:
+                    make.centerY.equalTo(anchor.snp.bottom).offset(-view.mBottom)
+                    break
+                }
+            }
+        }
+    }
 
+    open override func willRemoveSubview(_ subview: UIView) {
+        guard let i: Int = mSubviews.firstIndex(where: { $0 == subview }) else { return }
+        mSubviews[i].removeObserver(self, forKeyPath: "hidden", context: &UIView.mContext)
+        mSubviews.remove(at: i)
         super.willRemoveSubview(subview)
 
         if !isDeinit {
-            DispatchQueue.main.async { [unowned self] in
-                self.layoutSubview(self.subviews.getOrNil(i - 1))
-            }
+            layoutSubview(mSubviews.getOrNil(i - 1))
         }
     }
 
@@ -226,7 +306,7 @@ open class MLinView: UIView {
                     $0.top.equalToSuperview()
                     if safeEdge {
                         $0.bottom.equalTo(superview!.superview!.safeAreaLayoutGuide.snp.bottom)
-                    }else {
+                    } else {
                         $0.bottom.equalToSuperview()
                     }
                 } else if mHeight == .wrap {
@@ -260,7 +340,7 @@ open class MLinView: UIView {
                             layer.masksToBounds = true
                         }
                     } else if mWidth == .wrap {
-                        if autoAttach { $0.left.equalToSuperview()}
+                        if autoAttach { $0.left.equalToSuperview() }
                     } else if mWidth >= 0 {
                         $0.width.equalTo(mWidth)
                         if orientation == .horizontal {
@@ -271,14 +351,14 @@ open class MLinView: UIView {
                         $0.top.equalToSuperview()
                         if safeEdge {
                             $0.bottom.equalTo(superview!.safeAreaLayoutGuide.snp.bottom)
-                        }else {
+                        } else {
                             $0.bottom.equalToSuperview()
                         }
                         if orientation == .vertical {
                             layer.masksToBounds = true
                         }
                     } else if mHeight == .wrap {
-                        if autoAttach { $0.top.equalToSuperview()}
+                        if autoAttach { $0.top.equalToSuperview() }
                     } else if mHeight >= 0 {
                         $0.height.equalTo(mHeight)
                         if orientation == .vertical {
@@ -295,14 +375,14 @@ open class MLinView: UIView {
 
     public func layoutSubview(_ view: UIView? = nil) {
         if view != nil {
-            guard let i: Int = subviews.firstIndex(where: { $0 == view }) else { return }
+            guard let i: Int = mSubviews.firstIndex(where: { $0 == view }) else { return }
 
             for offset in 0 ... 2 {
-                guard let subView = subviews.getOrNil(i + offset) else { return }
+                guard let subView = mSubviews.getOrNil(i + offset) else { return }
                 makeConstrain(subView, i + offset)
             }
         } else {
-            for (i, subView) in subviews.enumerated() {
+            for (i, subView) in mSubviews.enumerated() {
                 makeConstrain(subView, i)
             }
         }
@@ -333,7 +413,7 @@ open class MLinView: UIView {
                         attachBottom = true
                     }
                 } else {
-                    let preSubView = subviews[i - 1]
+                    let preSubView = mSubviews[i - 1]
 
                     let preSubViewIsHidden = preSubView.isHidden
 
@@ -349,7 +429,7 @@ open class MLinView: UIView {
                     }
                 }
 
-                if i == subviews.count - 1 {
+                if i == mSubviews.count - 1 {
                     if mHeight == .wrap || scrollerAble || attachBottom == true {
                         $0.bottom.equalToSuperview().offset(bottomOffset)
                     }
@@ -402,7 +482,7 @@ open class MLinView: UIView {
                         attachBottom = true
                     }
                 } else {
-                    let preSubView = subviews[i - 1]
+                    let preSubView = mSubviews[i - 1]
 
                     let preSubViewIsHidden = preSubView.isHidden
 
@@ -451,7 +531,7 @@ open class MLinView: UIView {
                         }
                     }
                 }
-                if i == subviews.count - 1 {
+                if i == mSubviews.count - 1 {
                     if mWidth == .wrap || scrollerAble || attachBottom == true {
                         $0.right.equalToSuperview().offset(rightOffset)
                     }
