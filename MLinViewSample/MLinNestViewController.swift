@@ -59,8 +59,10 @@ class MLinNestViewController: BaseViewController {
         it.text = "18:00"
         it.textAlignment = .center
         it.numberOfLines = 0
-        it.mTop = 15
-        it.mRight = 15
+        it.mTop = 0
+        it.mLeft = 15
+
+        it.mConstraints = [MCons(_container, .topToTop, .leftToRight)]
     }
 
     override func viewDidLoad() {
@@ -71,9 +73,9 @@ class MLinNestViewController: BaseViewController {
         // 将MLinView添加到controller的view，可以参照MLinViewController 新建一个LinearViewController
         view.addSubview(_linear)
 
-        _linear.addBatch(_icon, _container)
-        
-        _linear.attach(_time, (.rightToRight , .parent), (.topToTop , .parent), (.leftToRight, _container))
+        _linear.addBatch(_icon, _container, _time)
+
+//        _linear.attach(_time, (.rightToRight , .parent), (.topToTop , .parent), (.leftToRight, _container))
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

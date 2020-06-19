@@ -10,5 +10,6 @@ import UIKit
 
 extension UIView {
     
-    public static var parent: UIView?
+    public static var parent: MParentView = MParentView()
+
 }

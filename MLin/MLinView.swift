@@ -20,27 +20,6 @@ public enum Orientation {
     case horizontal
 }
 
-public enum AttachOrientation {
-    case topToTop
-    case topToBottom
-    case leftToLeft
-    case leftToRight
-    case rightToRight
-    case rightToLeft
-    case bottomToBottom
-    case bottomToTop
-
-    case centerToCenter
-
-    case centerXToCenterX
-    case centerXToLeft
-    case centerXToRight
-
-    case centerYToCenterY
-    case centerYToTop
-    case centerYToBottom
-}
-
 public enum MGravity: Int {
     /// 默认
     case origin = 0
@@ -64,7 +43,10 @@ fileprivate var mTopKey: String = "mTopKey"
 fileprivate var mRightKey: String = "mRightKey"
 fileprivate var mBottomKey: String = "mBottomKey"
 fileprivate var mHiddenLeftKey: String = "mHiddenLeftKey"
+fileprivate var mHiddenRightKey: String = "mHiddenRightKey"
 fileprivate var mHiddenTopKey: String = "mHiddenTopKey"
+fileprivate var mHiddenBottomKey: String = "mHiddenBottomKey"
+fileprivate var mConstraintsKey: String = "mConstraintsKey"
 
 extension UIView {
     public static var mContext = "MSubView"
@@ -122,6 +104,21 @@ extension UIView {
         set { objc_setAssociatedObject(self, &mHiddenTopKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
         get { (objc_getAssociatedObject(self, &mHiddenTopKey)) as? CGFloat }
     }
+
+    public var mHiddenRight: CGFloat? {
+        set { objc_setAssociatedObject(self, &mHiddenRightKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        get { (objc_getAssociatedObject(self, &mHiddenRightKey)) as? CGFloat }
+    }
+
+    public var mHiddenBottom: CGFloat? {
+        set { objc_setAssociatedObject(self, &mHiddenBottomKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        get { (objc_getAssociatedObject(self, &mHiddenBottomKey)) as? CGFloat }
+    }
+
+    public var mConstraints: Array<MCons>? {
+        set { objc_setAssociatedObject(self, &mConstraintsKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        get { (objc_getAssociatedObject(self, &mConstraintsKey)) as? Array<MCons> }
+    }
 }
 
 open class MLinScrollView: UIScrollView {
@@ -135,6 +132,8 @@ open class MLinScrollView: UIScrollView {
 open class MLinView: UIView {
     /// 子控件
     fileprivate var mSubviews = Array<UIView>()
+
+    fileprivate var mSubviewsAttach = Array<UIView>()
 
     /// 滚动方向
     public var orientation: Orientation = .vertical
@@ -195,7 +194,13 @@ open class MLinView: UIView {
         view.addObserver(self, forKeyPath: "hidden", options: [.new], context: &UIView.mContext)
 
         super.addSubview(view)
-        mSubviews.insert(view, at: index)
+
+        if view.mConstraints?.isEmpty ?? true {
+            mSubviews.insert(view, at: index)
+
+        } else {
+            mSubviewsAttach.append(view)
+        }
 
         if forceLayout {
             layoutSubview(lastView)
@@ -220,61 +225,93 @@ open class MLinView: UIView {
         layoutSubview(lastView)
     }
 
-    public func attach(_ view: UIView, _ constainst: (AttachOrientation, UIView?)...) {
-        super.addSubview(view)
-        constainst.forEach { entity in
-            let anchor = entity.1 ?? self
-            view.snp.makeConstraints { make in
-                switch entity.0 {
-                case .topToTop:
-                    make.top.equalTo(anchor.snp.top).offset(view.mTop)
-                    break
-                case .topToBottom:
-                    if entity.1 == nil { break }
-                    make.top.equalTo(anchor.snp.bottom).offset(view.mTop)
-                    break
-                case .leftToLeft:
-                    make.left.equalTo(anchor.snp.left).offset(view.mLeft)
-                    break
-                case .leftToRight:
-                    if entity.1 == nil { break }
-                    make.left.equalTo(anchor.snp.right).offset(view.mLeft)
-                    break
-                case .rightToRight:
-                    make.right.equalTo(anchor.snp.right).offset(-view.mRight)
-                    break
-                case .rightToLeft:
-                    if entity.1 == nil { break }
-                    make.right.equalTo(anchor.snp.left).offset(-view.mRight)
-                    break
-                case .bottomToBottom:
-                    make.bottom.equalTo(anchor.snp.bottom).offset(-view.mBottom)
-                    break
-                case .bottomToTop:
-                    if entity.1 == nil { break }
-                    make.bottom.equalTo(anchor.snp.top).offset(-view.mBottom)
-                    break
-                case .centerToCenter:
-                    make.center.equalTo(anchor.snp.center)
-                    break
-                case .centerXToCenterX:
-                    make.centerX.equalTo(anchor.snp.centerX).offset(view.mLeft - view.mRight)
-                    break
-                case .centerXToLeft:
-                    make.centerX.equalTo(anchor.snp.left).offset(view.mLeft)
-                    break
-                case .centerXToRight:
-                    make.centerX.equalTo(anchor.snp.right).offset(-view.mRight)
-                    break
-                case .centerYToCenterY:
-                    make.centerY.equalTo(anchor.snp.centerY).offset(view.mTop - view.mBottom)
-                    break
-                case .centerYToTop:
-                    make.centerY.equalTo(anchor.snp.top).offset(view.mTop)
-                    break
-                case .centerYToBottom:
-                    make.centerY.equalTo(anchor.snp.bottom).offset(-view.mBottom)
-                    break
+    func makeAttachConstrain() {
+        mSubviewsAttach.forEach { view in
+            view.mConstraints?.forEach { entity in
+
+                let anchor: UIView = entity.anchor is MParentView ? self : entity.anchor
+                
+                let anchorValid = (anchor == self) || (!anchor.isHidden && anchor.superview != nil)
+                
+                let hiddenValid = entity.hiddenView == nil || (entity.hiddenView != nil && (entity.hiddenView!.isHidden == true || entity.hiddenView?.superview == nil))
+                
+
+                let isHidden = entity.hiddenView != nil && (entity.hiddenView!.isHidden == true || entity.hiddenView?.superview == nil)
+
+                let topOffset = isHidden ? (view.mHiddenTop ?? 0) : view.mTop
+                let leftOffset = isHidden ? (view.mHiddenLeft ?? 0) : view.mLeft
+                let rightOffset = isHidden ? (view.mHiddenRight ?? 0) : view.mRight
+                let bottomOffset = isHidden ? (view.mHiddenBottom ?? 0) : view.mBottom
+                
+                if anchorValid && hiddenValid {
+
+                    view.snp.remakeConstraints { make in
+                        entity.cons.forEach { cons in
+                            switch cons {
+                            case .topToTop:
+                                make.top.equalTo(anchor.snp.top).offset(topOffset)
+                                break
+                            case .topToBottom:
+                                if entity.anchor is MParentView { break }
+                                make.top.equalTo(anchor.snp.bottom).offset(topOffset)
+                                break
+                            case .topToCenterY:
+                                make.top.equalTo(anchor.snp.centerY).offset(topOffset)
+                                break
+                            case .leftToLeft:
+                                make.left.equalTo(anchor.snp.left).offset(leftOffset)
+                                break
+                            case .leftToRight:
+                                if entity.anchor is MParentView { break }
+                                make.left.equalTo(anchor.snp.right).offset(leftOffset)
+                                break
+                            case .leftToCenterX:
+                                make.left.equalTo(anchor.snp.centerX).offset(leftOffset)
+                                break
+                            case .rightToRight:
+                                make.right.equalTo(anchor.snp.right).offset(-rightOffset)
+                                break
+                            case .rightToLeft:
+                                if entity.anchor is MParentView { break }
+                                make.right.equalTo(anchor.snp.left).offset(-rightOffset)
+                                break
+                            case .rightToCenterX:
+                                make.right.equalTo(anchor.snp.centerX).offset(-rightOffset)
+                                break
+                            case .bottomToBottom:
+                                make.bottom.equalTo(anchor.snp.bottom).offset(-bottomOffset)
+                                break
+                            case .bottomToTop:
+                                if entity.anchor is MParentView { break }
+                                make.bottom.equalTo(anchor.snp.top).offset(-bottomOffset)
+                                break
+                            case .bottomToCenterY:
+                                make.bottom.equalTo(anchor.snp.centerY).offset(-bottomOffset)
+                                break
+                            case .centerToCenter:
+                                make.center.equalTo(anchor.snp.center)
+                                break
+                            case .centerXToCenterX:
+                                make.centerX.equalTo(anchor.snp.centerX).offset(leftOffset - rightOffset)
+                                break
+                            case .centerXToLeft:
+                                make.centerX.equalTo(anchor.snp.left).offset(leftOffset)
+                                break
+                            case .centerXToRight:
+                                make.centerX.equalTo(anchor.snp.right).offset(-rightOffset)
+                                break
+                            case .centerYToCenterY:
+                                make.centerY.equalTo(anchor.snp.centerY).offset(topOffset - bottomOffset)
+                                break
+                            case .centerYToTop:
+                                make.centerY.equalTo(anchor.snp.top).offset(topOffset)
+                                break
+                            case .centerYToBottom:
+                                make.centerY.equalTo(anchor.snp.bottom).offset(-bottomOffset)
+                                break
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -385,6 +422,10 @@ open class MLinView: UIView {
             for (i, subView) in mSubviews.enumerated() {
                 makeConstrain(subView, i)
             }
+        }
+
+        DispatchQueue.main.async { [unowned self] in
+            self.makeAttachConstrain()
         }
     }
 

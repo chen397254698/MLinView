@@ -67,8 +67,8 @@ class MLinVerticalViewController: BaseViewController {
 
         it.mTop = 20
         it.mRight = 50
-        
-        //_icon 隐藏时生效
+
+        // _icon 隐藏时生效
         it.mHiddenTop = 60
     }
 
@@ -106,14 +106,13 @@ class MLinVerticalViewController: BaseViewController {
         it.click { [unowned self] in
             self._icon.isHidden = !self._icon.isHidden
         }
-        
+
         it.mHeight = 45
         it.mTop = 20
         it.mLeft = 30
         it.mRight = 30
     }
-    
-    
+
     lazy var _addRemoveBtn = UIButton(type: .custom) => { it in
         it.setBackgroundColor(color: color_white, forState: .normal)
         it.setBackgroundColor(color: color_gray_ED, forState: .highlighted)
@@ -129,18 +128,18 @@ class MLinVerticalViewController: BaseViewController {
             self._icon =>> { it in
                 if it.superview != nil {
                     self._icon.removeFromSuperview()
-                }else {
+                } else {
                     self._linear.insertSubview(self._icon, 2)
                 }
             }
         }
-        
+
         it.mHeight = 45
         it.mTop = 20
         it.mLeft = 30
         it.mRight = 30
     }
-    
+
     lazy var _vScrollerBtn = UIButton(type: .custom) => { it in
         it.setBackgroundColor(color: color_white, forState: .normal)
         it.setBackgroundColor(color: color_gray_ED, forState: .highlighted)
@@ -155,14 +154,13 @@ class MLinVerticalViewController: BaseViewController {
         it.click { [unowned self] in
             self.navigationController?.pushViewController(MLinVScrollerViewController(), animated: true)
         }
-        
+
         it.mHeight = 45
         it.mTop = 20
         it.mLeft = 30
         it.mRight = 30
     }
-    
-    
+
     lazy var _nextBtn = UIButton(type: .custom) => { it in
         it.setBackgroundColor(color: color_white, forState: .normal)
         it.setBackgroundColor(color: color_gray_ED, forState: .highlighted)
@@ -178,7 +176,7 @@ class MLinVerticalViewController: BaseViewController {
             self.navigationController?.pushViewController(MLinHorizontalViewController(), animated: true)
         }
     }
-    
+
     lazy var _nestBtn = UIButton(type: .custom) => { it in
         it.setBackgroundColor(color: color_white, forState: .normal)
         it.setBackgroundColor(color: color_gray_ED, forState: .highlighted)
@@ -193,39 +191,39 @@ class MLinVerticalViewController: BaseViewController {
         it.click { [unowned self] in
             self.navigationController?.pushViewController(MLinNestViewController(), animated: true)
         }
-        
+
         it.mHeight = 45
         it.mTop = 20
         it.mLeft = 30
         it.mRight = 30
     }
-    
+
     /// 让依附
     lazy var _attachText = UILabel(mWidth: .wrap, mHeight: .wrap, mGravity: .right) => { it in
         it.font = UIFont.systemFont(ofSize: 16)
         it.textColor = color_gray_99
         it.text = "文字依附"
 
-        it.mTop = 0
+        it.mTop = 10
         it.mRight = 10
         it.mLeft = 40
+        
+        it.mHiddenTop = 20
+
+        it.mConstraints = [MCons(_icon, .topToTop, .leftToRight), MCons(.parent, .topToTop, .leftToLeft, hiddenView: _icon)]
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         title = "垂直线性布局"
 
-        // 将MLinView添加到controller的view，可以参照MLinViewController 新建一个LinearViewController
         view.addSubview(_linear)
 
-        _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn, _vScrollerBtn, _nestBtn)
-        
-        _linear.attach(_attachText, (.topToTop, .parent))
-       
-        
+        _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn, _vScrollerBtn, _nestBtn, _attachText)
+
         view.addSubview(_nextBtn)
-        _nextBtn.snp.makeConstraints{
+        _nextBtn.snp.makeConstraints {
             $0.left.right.equalToSuperview()
             $0.height.equalTo(45)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)

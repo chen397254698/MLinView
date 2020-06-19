@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		356FFEA4752B4E783B0A6CBD /* Pods_MLinViewSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 797A335E20BE243D41746014 /* Pods_MLinViewSample.framework */; };
+		742C79FC249C4B51008B0968 /* MLinConstainst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C79FB249C4B51008B0968 /* MLinConstainst.swift */; };
 		742DF483249B56B600FEDABB /* ViewExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742DF482249B56B600FEDABB /* ViewExtention.swift */; };
 		7430DDCC2498532C00824BB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DDCB2498532C00824BB5 /* AppDelegate.swift */; };
 		7430DDD02498532C00824BB5 /* MLinVerticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DDCF2498532C00824BB5 /* MLinVerticalViewController.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		3AAB32B35E5445CC084B305B /* Pods-MLinViewSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLinViewSample.release.xcconfig"; path = "Target Support Files/Pods-MLinViewSample/Pods-MLinViewSample.release.xcconfig"; sourceTree = "<group>"; };
+		742C79FB249C4B51008B0968 /* MLinConstainst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLinConstainst.swift; sourceTree = "<group>"; };
 		742DF482249B56B600FEDABB /* ViewExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtention.swift; sourceTree = "<group>"; };
 		7430DDC82498532C00824BB5 /* MLinViewSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLinViewSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7430DDCB2498532C00824BB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				7430DDF02498605B00824BB5 /* MLinView.swift */,
+				742C79FB249C4B51008B0968 /* MLinConstainst.swift */,
 				7430DDEB2498603500824BB5 /* extention */,
 			);
 			path = MLin;
@@ -251,6 +254,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				742C79FC249C4B51008B0968 /* MLinConstainst.swift in Sources */,
 				7430DE02249874C600824BB5 /* MLinHScrollerViewController.swift in Sources */,
 				7430DE042498761000824BB5 /* MLinVScrollerViewController.swift in Sources */,
 				7430DDEE2498603500824BB5 /* SymbolExtention.swift in Sources */,
