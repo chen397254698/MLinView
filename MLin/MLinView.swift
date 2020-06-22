@@ -225,16 +225,19 @@ open class MLinView: UIView {
         layoutSubview(lastView)
     }
 
+    public func attach<T: UIView>(_ views: T...) {
+        views.forEach { super.addSubview($0) }
+    }
+
     func makeAttachConstrain() {
         mSubviewsAttach.forEach { view in
             view.mConstraints?.forEach { entity in
 
                 let anchor: UIView = entity.anchor is MParentView ? self : entity.anchor
-                
+
                 let anchorValid = (anchor == self) || (!anchor.isHidden && anchor.superview != nil)
-                
+
                 let hiddenValid = entity.hiddenView == nil || (entity.hiddenView != nil && (entity.hiddenView!.isHidden == true || entity.hiddenView?.superview == nil))
-                
 
                 let isHidden = entity.hiddenView != nil && (entity.hiddenView!.isHidden == true || entity.hiddenView?.superview == nil)
 
@@ -242,9 +245,8 @@ open class MLinView: UIView {
                 let leftOffset = isHidden ? (view.mHiddenLeft ?? 0) : view.mLeft
                 let rightOffset = isHidden ? (view.mHiddenRight ?? 0) : view.mRight
                 let bottomOffset = isHidden ? (view.mHiddenBottom ?? 0) : view.mBottom
-                
-                if anchorValid && hiddenValid {
 
+                if anchorValid && hiddenValid {
                     view.snp.remakeConstraints { make in
                         entity.cons.forEach { cons in
                             switch cons {
