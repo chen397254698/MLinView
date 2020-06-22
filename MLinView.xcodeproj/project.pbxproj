@@ -31,7 +31,7 @@
 		3AAB32B35E5445CC084B305B /* Pods-MLinViewSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLinViewSample.release.xcconfig"; path = "Target Support Files/Pods-MLinViewSample/Pods-MLinViewSample.release.xcconfig"; sourceTree = "<group>"; };
 		742C79FB249C4B51008B0968 /* MLinConstainst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLinConstainst.swift; sourceTree = "<group>"; };
 		742DF482249B56B600FEDABB /* ViewExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtention.swift; sourceTree = "<group>"; };
-		7430DDC82498532C00824BB5 /* MLinViewSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLinViewSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7430DDC82498532C00824BB5 /* MLinView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLinView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7430DDCB2498532C00824BB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7430DDCF2498532C00824BB5 /* MLinVerticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLinVerticalViewController.swift; sourceTree = "<group>"; };
 		7430DDD42498532E00824BB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		7430DDBF2498532C00824BB5 = {
 			isa = PBXGroup;
 			children = (
-				7430DDEA2498600E00824BB5 /* MLin */,
+				7430DDEA2498600E00824BB5 /* MLinView */,
 				7430DDCA2498532C00824BB5 /* MLinViewSample */,
 				7430DDC92498532C00824BB5 /* Products */,
 				6241C067206BB50BD0FAABC0 /* Pods */,
@@ -87,7 +87,7 @@
 		7430DDC92498532C00824BB5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7430DDC82498532C00824BB5 /* MLinViewSample.app */,
+				7430DDC82498532C00824BB5 /* MLinView.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -109,14 +109,14 @@
 			path = MLinViewSample;
 			sourceTree = "<group>";
 		};
-		7430DDEA2498600E00824BB5 /* MLin */ = {
+		7430DDEA2498600E00824BB5 /* MLinView */ = {
 			isa = PBXGroup;
 			children = (
 				7430DDF02498605B00824BB5 /* MLinView.swift */,
 				742C79FB249C4B51008B0968 /* MLinConstainst.swift */,
 				7430DDEB2498603500824BB5 /* extention */,
 			);
-			path = MLin;
+			path = MLinView;
 			sourceTree = "<group>";
 		};
 		7430DDEB2498603500824BB5 /* extention */ = {
@@ -143,9 +143,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7430DDC72498532C00824BB5 /* MLinViewSample */ = {
+		7430DDC72498532C00824BB5 /* MLinView */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7430DDDC2498532E00824BB5 /* Build configuration list for PBXNativeTarget "MLinViewSample" */;
+			buildConfigurationList = 7430DDDC2498532E00824BB5 /* Build configuration list for PBXNativeTarget "MLinView" */;
 			buildPhases = (
 				4902BDC8EC11C402533F594E /* [CP] Check Pods Manifest.lock */,
 				7430DDC42498532C00824BB5 /* Sources */,
@@ -157,9 +157,9 @@
 			);
 			dependencies = (
 			);
-			name = MLinViewSample;
+			name = MLinView;
 			productName = MLinViewSample;
-			productReference = 7430DDC82498532C00824BB5 /* MLinViewSample.app */;
+			productReference = 7430DDC82498532C00824BB5 /* MLinView.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -177,7 +177,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7430DDC32498532C00824BB5 /* Build configuration list for PBXProject "MLinViewSample" */;
+			buildConfigurationList = 7430DDC32498532C00824BB5 /* Build configuration list for PBXProject "MLinView" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -190,7 +190,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7430DDC72498532C00824BB5 /* MLinViewSample */,
+				7430DDC72498532C00824BB5 /* MLinView */,
 			);
 		};
 /* End PBXProject section */
@@ -441,7 +441,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7430DDC32498532C00824BB5 /* Build configuration list for PBXProject "MLinViewSample" */ = {
+		7430DDC32498532C00824BB5 /* Build configuration list for PBXProject "MLinView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7430DDDA2498532E00824BB5 /* Debug */,
@@ -450,7 +450,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7430DDDC2498532E00824BB5 /* Build configuration list for PBXNativeTarget "MLinViewSample" */ = {
+		7430DDDC2498532E00824BB5 /* Build configuration list for PBXNativeTarget "MLinView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7430DDDD2498532E00824BB5 /* Debug */,

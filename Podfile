@@ -8,7 +8,7 @@ workspace 'MLinViewSample.xcworkspace'
 
 pod 'SnapKit'
 
-target 'MLinViewSample' do
-  project 'MLinViewSample.xcodeproj'
+target 'MLinView' do
+  project 'MLinView.xcodeproj'
 
 end

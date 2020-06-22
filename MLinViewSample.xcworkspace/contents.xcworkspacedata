@@ -2,10 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/chen/IosProjects/MLinViewSample/MLinView.podspec">
-   </FileRef>
-   <FileRef
-      location = "group:MLinViewSample.xcodeproj">
+      location = "group:/Users/chen/IosProjects/MLinViewSample/MLinView.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
