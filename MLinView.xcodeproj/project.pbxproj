@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		356FFEA4752B4E783B0A6CBD /* Pods_MLinViewSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 797A335E20BE243D41746014 /* Pods_MLinViewSample.framework */; };
+		186B67B203112C474FA95AB8 /* Pods_MLinView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D83FD509539C8FEEED0AA39 /* Pods_MLinView.framework */; };
 		742C79FC249C4B51008B0968 /* MLinConstainst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C79FB249C4B51008B0968 /* MLinConstainst.swift */; };
 		742DF483249B56B600FEDABB /* ViewExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742DF482249B56B600FEDABB /* ViewExtention.swift */; };
 		7430DDCC2498532C00824BB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DDCB2498532C00824BB5 /* AppDelegate.swift */; };
 		7430DDD02498532C00824BB5 /* MLinVerticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DDCF2498532C00824BB5 /* MLinVerticalViewController.swift */; };
 		7430DDD52498532E00824BB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7430DDD42498532E00824BB5 /* Assets.xcassets */; };
-		7430DDD82498532E00824BB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7430DDD62498532E00824BB5 /* LaunchScreen.storyboard */; };
 		7430DDE024985BA400824BB5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DDDF24985BA400824BB5 /* BaseViewController.swift */; };
 		7430DDEE2498603500824BB5 /* SymbolExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DDEC2498603500824BB5 /* SymbolExtention.swift */; };
 		7430DDEF2498603500824BB5 /* ColorExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DDED2498603500824BB5 /* ColorExtention.swift */; };
@@ -25,17 +24,18 @@
 		7430DE02249874C600824BB5 /* MLinHScrollerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DE01249874C600824BB5 /* MLinHScrollerViewController.swift */; };
 		7430DE042498761000824BB5 /* MLinVScrollerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DE032498761000824BB5 /* MLinVScrollerViewController.swift */; };
 		7430DE062498914B00824BB5 /* MLinNestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DE052498914B00824BB5 /* MLinNestViewController.swift */; };
+		7443E80724A09E8500FA44EA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7443E80624A09E8500FA44EA /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3AAB32B35E5445CC084B305B /* Pods-MLinViewSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLinViewSample.release.xcconfig"; path = "Target Support Files/Pods-MLinViewSample/Pods-MLinViewSample.release.xcconfig"; sourceTree = "<group>"; };
+		6798F30AABF4CEE4EAC4452E /* Pods-MLinView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLinView.release.xcconfig"; path = "Target Support Files/Pods-MLinView/Pods-MLinView.release.xcconfig"; sourceTree = "<group>"; };
 		742C79FB249C4B51008B0968 /* MLinConstainst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLinConstainst.swift; sourceTree = "<group>"; };
 		742DF482249B56B600FEDABB /* ViewExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtention.swift; sourceTree = "<group>"; };
 		7430DDC82498532C00824BB5 /* MLinView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLinView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7430DDCB2498532C00824BB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7430DDCF2498532C00824BB5 /* MLinVerticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLinVerticalViewController.swift; sourceTree = "<group>"; };
 		7430DDD42498532E00824BB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7430DDD72498532E00824BB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7430DDD92498532E00824BB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7430DDDF24985BA400824BB5 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		7430DDEC2498603500824BB5 /* SymbolExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymbolExtention.swift; sourceTree = "<group>"; };
@@ -48,8 +48,10 @@
 		7430DE01249874C600824BB5 /* MLinHScrollerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLinHScrollerViewController.swift; sourceTree = "<group>"; };
 		7430DE032498761000824BB5 /* MLinVScrollerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLinVScrollerViewController.swift; sourceTree = "<group>"; };
 		7430DE052498914B00824BB5 /* MLinNestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLinNestViewController.swift; sourceTree = "<group>"; };
-		797A335E20BE243D41746014 /* Pods_MLinViewSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLinViewSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7443E80624A09E8500FA44EA /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		797C7D1A98583368AF45B922 /* Pods-MLinViewSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLinViewSample.debug.xcconfig"; path = "Target Support Files/Pods-MLinViewSample/Pods-MLinViewSample.debug.xcconfig"; sourceTree = "<group>"; };
+		7D83FD509539C8FEEED0AA39 /* Pods_MLinView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLinView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B418A72F69CEA38653D8C2C7 /* Pods-MLinView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLinView.debug.xcconfig"; path = "Target Support Files/Pods-MLinView/Pods-MLinView.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				356FFEA4752B4E783B0A6CBD /* Pods_MLinViewSample.framework in Frameworks */,
+				186B67B203112C474FA95AB8 /* Pods_MLinView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +71,8 @@
 			children = (
 				797C7D1A98583368AF45B922 /* Pods-MLinViewSample.debug.xcconfig */,
 				3AAB32B35E5445CC084B305B /* Pods-MLinViewSample.release.xcconfig */,
+				B418A72F69CEA38653D8C2C7 /* Pods-MLinView.debug.xcconfig */,
+				6798F30AABF4CEE4EAC4452E /* Pods-MLinView.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -95,12 +99,12 @@
 		7430DDCA2498532C00824BB5 /* MLinViewSample */ = {
 			isa = PBXGroup;
 			children = (
+				7443E80624A09E8500FA44EA /* LaunchScreen.storyboard */,
 				7430DE032498761000824BB5 /* MLinVScrollerViewController.swift */,
 				7430DE01249874C600824BB5 /* MLinHScrollerViewController.swift */,
 				7430DDCB2498532C00824BB5 /* AppDelegate.swift */,
 				7430DDCF2498532C00824BB5 /* MLinVerticalViewController.swift */,
 				7430DDD42498532E00824BB5 /* Assets.xcassets */,
-				7430DDD62498532E00824BB5 /* LaunchScreen.storyboard */,
 				7430DDD92498532E00824BB5 /* Info.plist */,
 				7430DDDF24985BA400824BB5 /* BaseViewController.swift */,
 				7430DDFF249870CC00824BB5 /* MLinHorizontalViewController.swift */,
@@ -135,7 +139,7 @@
 		8A78ACFF8A01F7FC0A42E179 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				797A335E20BE243D41746014 /* Pods_MLinViewSample.framework */,
+				7D83FD509539C8FEEED0AA39 /* Pods_MLinView.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -200,7 +204,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7430DDD82498532E00824BB5 /* LaunchScreen.storyboard in Resources */,
+				7443E80724A09E8500FA44EA /* LaunchScreen.storyboard in Resources */,
 				7430DDD52498532E00824BB5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -223,7 +227,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MLinViewSample-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MLinView-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -236,15 +240,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MLinViewSample/Pods-MLinViewSample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-MLinView/Pods-MLinView-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MLinViewSample/Pods-MLinViewSample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-MLinView/Pods-MLinView-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MLinViewSample/Pods-MLinViewSample-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MLinView/Pods-MLinView-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -273,17 +277,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		7430DDD62498532E00824BB5 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7430DDD72498532E00824BB5 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		7430DDDA2498532E00824BB5 /* Debug */ = {
@@ -402,7 +395,7 @@
 		};
 		7430DDDD2498532E00824BB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 797C7D1A98583368AF45B922 /* Pods-MLinViewSample.debug.xcconfig */;
+			baseConfigurationReference = B418A72F69CEA38653D8C2C7 /* Pods-MLinView.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -421,7 +414,7 @@
 		};
 		7430DDDE2498532E00824BB5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3AAB32B35E5445CC084B305B /* Pods-MLinViewSample.release.xcconfig */;
+			baseConfigurationReference = 6798F30AABF4CEE4EAC4452E /* Pods-MLinView.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

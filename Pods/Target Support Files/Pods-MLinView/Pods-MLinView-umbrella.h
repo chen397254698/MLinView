@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_MLinViewSampleVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_MLinViewSampleVersionString[];
+FOUNDATION_EXPORT double Pods_MLinViewVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_MLinViewVersionString[];
 
