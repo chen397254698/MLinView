@@ -10,11 +10,14 @@ import UIKit
 
 class MLinVScrollerViewController: BaseViewController {
     /// 创建一个垂直方向的线性布局，宽高铺满父布局
-    lazy var _linear = MLinView(orientation: .vertical, mWidth: .match, mHeight: .match) => { it in
-        it.safeEdge = true
-        it.scoller.backgroundColor = color_gray_F5
+    open lazy var _scroller = MLinView._scroller(view) => { it in
+        it.backgroundColor = color_gray_F5
     }
-
+    
+    open lazy var _linear = _scroller._mLinView => { it in
+            it.safeEdge = true
+    }
+    
     /// 符号 => 是扩展的符号，不在需要临时变量存放。
     /// _topic 页面主题, 宽高自适应，居于线性布局的中部，父布局为垂直布局则水平居中，以此类推。 注意只有.wrap或者固定宽度
     /// mGravity属性才能生效
@@ -164,9 +167,6 @@ class MLinVScrollerViewController: BaseViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         title = "垂直滚动布局"
-
-        // 将MLinView添加到controller的view，可以参照MLinViewController 新建一个LinearViewController
-        view.addSubview(_linear.scoller)
 
         _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn)
         

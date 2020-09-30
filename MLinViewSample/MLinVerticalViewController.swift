@@ -10,9 +10,10 @@ import UIKit
 
 class MLinVerticalViewController: BaseViewController {
     /// 创建一个垂直方向的线性布局，宽高铺满父布局
-    lazy var _linear = MLinView(orientation: .vertical, mWidth: .match, mHeight: .match) => { it in
-        it.backgroundColor = color_gray_F5
-    }
+    
+    lazy var _scroller = MLinView._scroller(view)
+    
+    lazy var _linear = _scroller._mLinView
 
     /// 符号 => 是扩展的符号，不在需要临时变量存放。
     /// _topic 页面主题, 宽高自适应，居于线性布局的中部，父布局为垂直布局则水平居中，以此类推。 注意只有.wrap或者固定宽度
@@ -198,6 +199,27 @@ class MLinVerticalViewController: BaseViewController {
         it.mRight = 30
     }
 
+    lazy var _compressHugging = UIButton(type: .custom) => { it in
+        it.setBackgroundColor(color: color_white, forState: .normal)
+        it.setBackgroundColor(color: color_gray_ED, forState: .highlighted)
+        it.setBackgroundColor(color: color_white, forState: .disabled)
+        it.setTitle("抗拉申压缩", for: .normal)
+        it.setTitleColor(color_gray_22, for: .normal)
+        it.layer.cornerRadius = 5
+        it.layer.masksToBounds = true
+        it.layer.borderColor = color_gray_DD.cgColor
+        it.layer.borderWidth = 1
+        it.layer.masksToBounds = true
+        it.click { [unowned self] in
+            self.navigationController?.pushViewController(CompressHuggingViewController(), animated: true)
+        }
+
+        it.mHeight = 45
+        it.mTop = 20
+        it.mLeft = 30
+        it.mRight = 30
+    }
+    
     /// 让依附
     lazy var _attachText = UILabel(mWidth: .wrap, mHeight: .wrap, mGravity: .right) => { it in
         it.font = UIFont.systemFont(ofSize: 16)
@@ -212,15 +234,18 @@ class MLinVerticalViewController: BaseViewController {
 
         it.mConstraints = [MCons(_icon, .topToTop, .leftToRight), MCons(.parent, .topToTop, .leftToLeft, hiddenView: _icon)]
     }
+    
+    lazy var _space = UIView() => { it in
+        it.mWidth = .match
+        it.mHeight = 100
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         title = "垂直线性布局"
-
-        view.addSubview(_linear)
-
-        _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn, _vScrollerBtn, _nestBtn, _attachText)
+        
+        _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn, _vScrollerBtn, _nestBtn, _compressHugging, _attachText, _space)
 
         view.addSubview(_nextBtn)
         _nextBtn.snp.makeConstraints {

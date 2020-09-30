@@ -10,10 +10,14 @@ import UIKit
 
 class MLinHScrollerViewController: BaseViewController {
     /// 创建一个水平方向的线性布局，宽铺满父布局， 高度50
-    lazy var _linear = MLinView(orientation: .horizontal, mWidth: .match, mHeight: .wrap) => { it in
+    open lazy var _scroller = MLinScrollView() => { it in
+        view.addSubview(it)
+        it.snp.makeConstraints { $0.edges.equalToSuperview() }
         it.backgroundColor = color_gray_F5
     }
-
+    
+    open lazy var _linear = _scroller._mLinView
+    
     /// _content 页面内容, 宽铺满父布局，高自适应, 自动换行
     lazy var _icon = UIImageView(image: UIImage(named: "done_icon")) => { it in
 
@@ -150,8 +154,6 @@ class MLinHScrollerViewController: BaseViewController {
         title = "水平滚动布局"
 
         //开启滚动
-        // 将MLinView.scoller 添加到controller的view，可以参照MLinViewController 新建一个LinearViewController
-        view.addSubview(_linear.scoller)
 
         _linear.addBatch(_icon, _topic, _content, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn)
     }

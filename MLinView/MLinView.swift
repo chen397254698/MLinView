@@ -61,71 +61,99 @@ extension UIView {
     }
 
     public var mWidth: CGFloat {
-        set { objc_setAssociatedObject(self, &mWidthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mWidthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mWidthKey)) as? CGFloat ?? .fit }
     }
 
     public var mHeight: CGFloat {
-        set { objc_setAssociatedObject(self, &mHeightKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mHeightKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mHeightKey)) as? CGFloat ?? .fit }
     }
 
     public var mGravity: MGravity {
-        set { objc_setAssociatedObject(self, &mGravityKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mGravityKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mGravityKey)) as? MGravity ?? .origin }
     }
 
     public var mLeft: CGFloat {
-        set { objc_setAssociatedObject(self, &mLeftKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mLeftKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mLeftKey)) as? CGFloat ?? 0 }
     }
 
     public var mTop: CGFloat {
-        set { objc_setAssociatedObject(self, &mTopKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mTopKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mTopKey)) as? CGFloat ?? 0 }
     }
 
     public var mRight: CGFloat {
-        set { objc_setAssociatedObject(self, &mRightKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mRightKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mRightKey)) as? CGFloat ?? 0 }
     }
 
     public var mBottom: CGFloat {
-        set { objc_setAssociatedObject(self, &mBottomKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mBottomKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mBottomKey)) as? CGFloat ?? 0 }
     }
 
     public var mHiddenLeft: CGFloat? {
-        set { objc_setAssociatedObject(self, &mHiddenLeftKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mHiddenLeftKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mHiddenLeftKey)) as? CGFloat }
     }
 
     public var mHiddenTop: CGFloat? {
-        set { objc_setAssociatedObject(self, &mHiddenTopKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mHiddenTopKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mHiddenTopKey)) as? CGFloat }
     }
 
     public var mHiddenRight: CGFloat? {
-        set { objc_setAssociatedObject(self, &mHiddenRightKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mHiddenRightKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mHiddenRightKey)) as? CGFloat }
     }
 
     public var mHiddenBottom: CGFloat? {
-        set { objc_setAssociatedObject(self, &mHiddenBottomKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mHiddenBottomKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mHiddenBottomKey)) as? CGFloat }
     }
 
     public var mConstraints: Array<MCons>? {
-        set { objc_setAssociatedObject(self, &mConstraintsKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set {
+            objc_setAssociatedObject(self, &mConstraintsKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            (superview as? MLinView)?.layoutSubview(self)
+        }
         get { (objc_getAssociatedObject(self, &mConstraintsKey)) as? Array<MCons> }
-    }
-}
-
-open class MLinScrollView: UIScrollView {
-    public var didMoveToSuperviewBlock: (() -> Void)?
-    open override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        didMoveToSuperviewBlock?()
     }
 }
 
@@ -138,7 +166,7 @@ open class MLinView: UIView {
     /// 滚动方向
     public var orientation: Orientation = .vertical
 
-    private var scrollerAble = false
+    public var scrollerAble = false
 
     private var isDeinit = false
 
@@ -154,18 +182,6 @@ open class MLinView: UIView {
         self.mHeight = mHeight ?? (orientation == .vertical ? .wrap : .match)
     }
 
-    public lazy var scoller = MLinScrollView() => { it in
-        it.showsVerticalScrollIndicator = false
-        it.showsHorizontalScrollIndicator = false
-        it.bounces = false
-        scrollerAble = true
-        it.didMoveToSuperviewBlock = { [unowned self] in
-            self.didMoveToSuperview()
-        }
-        it.addSubview(self)
-        snp.makeConstraints { $0.edges.equalToSuperview() }
-    }
-
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -174,7 +190,7 @@ open class MLinView: UIView {
         mSubviews.getOrNil(index) as? T
     }
 
-    open override func addSubview(_ view: UIView) {
+    override open func addSubview(_ view: UIView) {
         addSubview(view, mWidth: nil, mHeight: nil, mGravity: nil, forceLayout: true)
     }
 
@@ -207,6 +223,13 @@ open class MLinView: UIView {
         }
     }
 
+    public class func _scroller(_ view: UIView, autoAttach: Bool = true) -> MLinScrollView {
+        MLinScrollView() => { it in
+            view.addSubview(it)
+            if autoAttach { it.snp.makeConstraints { $0.edges.equalToSuperview() } }
+        }
+    }
+
     public func addBatch<T: UIView>(_ views: T..., mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, insets: UIEdgeInsets? = nil, mGravity: MGravity? = nil) {
         let lastView = mSubviews.last
 
@@ -231,6 +254,15 @@ open class MLinView: UIView {
 
     func makeAttachConstrain() {
         mSubviewsAttach.forEach { view in
+            view.snp.removeConstraints()
+            view.snp.makeConstraints {
+                if view.mWidth >= 0 {
+                    $0.width.equalTo(view.mWidth)
+                }
+                if view.mHeight >= 0 {
+                    $0.height.equalTo(view.mHeight)
+                }
+            }
             view.mConstraints?.forEach { entity in
 
                 let anchor: UIView = entity.anchor is MParentView ? self : entity.anchor
@@ -247,7 +279,7 @@ open class MLinView: UIView {
                 let bottomOffset = isHidden ? (view.mHiddenBottom ?? 0) : view.mBottom
 
                 if anchorValid && hiddenValid {
-                    view.snp.remakeConstraints { make in
+                    view.snp.makeConstraints { make in
                         entity.cons.forEach { cons in
                             switch cons {
                             case .topToTop:
@@ -319,7 +351,7 @@ open class MLinView: UIView {
         }
     }
 
-    open override func willRemoveSubview(_ subview: UIView) {
+    override open func willRemoveSubview(_ subview: UIView) {
         guard let i: Int = mSubviews.firstIndex(where: { $0 == subview }) else { return }
         mSubviews[i].removeObserver(self, forKeyPath: "hidden", context: &UIView.mContext)
         mSubviews.remove(at: i)
@@ -330,7 +362,7 @@ open class MLinView: UIView {
         }
     }
 
-    open override func didMoveToSuperview() {
+    override open func didMoveToSuperview() {
         super.didMoveToSuperview()
         if scrollerAble && superview?.superview != nil {
             superview?.snp.makeConstraints {
@@ -366,8 +398,8 @@ open class MLinView: UIView {
                     $0.top.equalToSuperview()
                 }
             }
-            DispatchQueue.main.async { [unowned self] in
-                self.layoutSubview()
+            DispatchQueue.main.async { [weak self] in
+                self?.layoutSubview()
             }
 
         } else {
@@ -405,8 +437,8 @@ open class MLinView: UIView {
                         }
                     }
                 }
-                DispatchQueue.main.async { [unowned self] in
-                    self.layoutSubview()
+                DispatchQueue.main.async { [weak self] in
+                    self?.layoutSubview()
                 }
             }
         }
@@ -426,8 +458,8 @@ open class MLinView: UIView {
             }
         }
 
-        DispatchQueue.main.async { [unowned self] in
-            self.makeAttachConstrain()
+        DispatchQueue.main.async { [weak self] in
+            self?.makeAttachConstrain()
         }
     }
 
@@ -464,7 +496,7 @@ open class MLinView: UIView {
 
                     let currentTopOffset = preSubViewIsHidden ? hiddenTopOffset : topOffset
 
-                    constraint = $0.top.equalTo(preSubView.snp.bottom).offset(currentTopOffset + preBottomOffset).constraint
+                    constraint = $0.top.greaterThanOrEqualTo(preSubView.snp.bottom).offset(currentTopOffset + preBottomOffset).constraint
 
                     if view.mHeight == .match || preSubView.mHeight == .match {
                         constraint?.update(priority: .low)
@@ -533,7 +565,17 @@ open class MLinView: UIView {
 
                     let currentLeftOffset = preSubViewIsHidden ? hiddenLeftOffset : leftOffset
 
-                    constraint = $0.left.equalTo(preSubView.snp.right).offset(currentLeftOffset + preRightOffset).constraint
+                    constraint = $0.left.greaterThanOrEqualTo(preSubView.snp.right).offset(currentLeftOffset + preRightOffset).constraint
+                    
+                    if mSubviews.count > i + 1 {
+                        let nextSubView = mSubviews[i + 1]
+                        let nextSubViewIsHidden = nextSubView.isHidden
+
+//                        let nextRightOffset = nextSubViewIsHidden ? 0 : nextSubView.mLeft
+//
+//                        let currentLeftOffset = nextSubViewIsHidden ? hiddenLeftOffset : leftOffset
+                        $0.right.greaterThanOrEqualTo(nextSubView.snp.left)
+                    }
 
                     if view.mWidth == .match || preSubView.mWidth == .match {
                         constraint?.update(priority: .low)
@@ -583,7 +625,7 @@ open class MLinView: UIView {
         }
     }
 
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "hidden" && context == &UIView.mContext {
             layoutSubview(object as? UIView)
         }
@@ -591,5 +633,32 @@ open class MLinView: UIView {
 
     deinit {
         isDeinit = true
+    }
+}
+
+open class MLinScrollView: UIScrollView {
+    open lazy var _mLinView = MLinView(mWidth: .match, mHeight: .match) => { it in
+        it.backgroundColor = color_gray_F5
+        it.scrollerAble = true
+    }
+
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
+
+        showsVerticalScrollIndicator = false
+        showsHorizontalScrollIndicator = false
+        bounces = false
+        addSubview(_mLinView)
+        backgroundColor = color_gray_F5
+        _mLinView.snp.makeConstraints { $0.edges.equalToSuperview() }
+    }
+
+    public required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override open func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        _mLinView.didMoveToSuperview()
     }
 }

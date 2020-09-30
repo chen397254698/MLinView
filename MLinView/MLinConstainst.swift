@@ -44,7 +44,7 @@ public struct MCons {
 
     public var hiddenView: UIView?
     
-    init(_ anchor: UIView, _ cons:AttachOrientation..., hiddenView: UIView? = nil) {
+    public init(_ anchor: UIView, _ cons:AttachOrientation..., hiddenView: UIView? = nil) {
         self.anchor = anchor
         self.cons = cons
         self.hiddenView = hiddenView
