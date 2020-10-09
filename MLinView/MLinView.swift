@@ -468,25 +468,20 @@ open class MLinView: UIView {
             let isHidden = view.isHidden
 
             let topOffset = isHidden ? 0 : view.mTop
-            let hiddenTopOffset = isHidden ? 0 : (view.mHiddenTop != nil ? view.mHiddenTop! : view.mTop)
 
             let bottomOffset = isHidden ? 0 : -view.mBottom
 
             let leftOffset = isHidden ? 0 : view.mLeft
-            let hiddenLeftOffset = isHidden ? 0 : (view.mHiddenLeft != nil ? view.mHiddenLeft! : view.mLeft)
 
             let rightOffset = isHidden ? 0 : -view.mRight
 
             if orientation == .vertical {
+                let hiddenTopOffset = isHidden ? 0 : (view.mHiddenTop != nil ? view.mHiddenTop! : view.mTop)
+                let hiddenBottomOffset = isHidden ? 0 : (view.mHiddenBottom != nil ? view.mHiddenBottom! : view.mBottom)
                 var constraint: Constraint?
-                var attachBottom = false
                 if i <= 0 {
                     constraint = $0.top.equalToSuperview().offset(topOffset).constraint
 
-                    if view.mHeight == .match {
-                        constraint?.update(priority: .low)
-                        attachBottom = true
-                    }
                 } else {
                     let preSubView = mSubviews[i - 1]
 
@@ -497,15 +492,21 @@ open class MLinView: UIView {
                     let currentTopOffset = preSubViewIsHidden ? hiddenTopOffset : topOffset
 
                     constraint = $0.top.greaterThanOrEqualTo(preSubView.snp.bottom).offset(currentTopOffset + preBottomOffset).constraint
-
-                    if view.mHeight == .match || preSubView.mHeight == .match {
-                        constraint?.update(priority: .low)
-                        attachBottom = true
-                    }
                 }
 
+                if mSubviews.count > i + 1 {
+                    let nextSubView = mSubviews[i + 1]
+                    let nextSubViewIsHidden = nextSubView.isHidden
+
+                    let nextTopOffset = nextSubViewIsHidden ? 0 : nextSubView.mTop
+//
+                    let currentBottomOffset = nextSubViewIsHidden ? hiddenBottomOffset : bottomOffset
+                    $0.right.greaterThanOrEqualTo(nextSubView.snp.left).offset(currentBottomOffset + nextTopOffset)
+                }
+                
                 if i == mSubviews.count - 1 {
-                    if mHeight == .wrap || scrollerAble || attachBottom == true {
+                    
+                    if mHeight == .wrap || scrollerAble || mSubviews.filter { $0.isHidden == false && $0.mWidth == .match }.count > 0{
                         $0.bottom.equalToSuperview().offset(bottomOffset)
                     }
                 }
@@ -547,6 +548,10 @@ open class MLinView: UIView {
                 }
 
             } else {
+                
+                let hiddenLeftOffset = isHidden ? 0 : (view.mHiddenLeft != nil ? view.mHiddenLeft! : view.mLeft)
+                let hiddenRightOffset = isHidden ? 0 : (view.mHiddenRight != nil ? -view.mHiddenRight! : -view.mRight)
+                
                 var constraint: Constraint?
                 var attachBottom = false
                 if i <= 0 {
@@ -566,21 +571,21 @@ open class MLinView: UIView {
                     let currentLeftOffset = preSubViewIsHidden ? hiddenLeftOffset : leftOffset
 
                     constraint = $0.left.greaterThanOrEqualTo(preSubView.snp.right).offset(currentLeftOffset + preRightOffset).constraint
-                    
-                    if mSubviews.count > i + 1 {
-                        let nextSubView = mSubviews[i + 1]
-                        let nextSubViewIsHidden = nextSubView.isHidden
-
-//                        let nextRightOffset = nextSubViewIsHidden ? 0 : nextSubView.mLeft
-//
-//                        let currentLeftOffset = nextSubViewIsHidden ? hiddenLeftOffset : leftOffset
-                        $0.right.greaterThanOrEqualTo(nextSubView.snp.left)
-                    }
 
                     if view.mWidth == .match || preSubView.mWidth == .match {
                         constraint?.update(priority: .low)
                         attachBottom = true
                     }
+                }
+
+                if mSubviews.count > i + 1 {
+                    let nextSubView = mSubviews[i + 1]
+                    let nextSubViewIsHidden = nextSubView.isHidden
+
+                    let nextLeftOffset = nextSubViewIsHidden ? 0 : nextSubView.mLeft
+
+                    let currentRightOffset = nextSubViewIsHidden ? hiddenRightOffset : rightOffset
+                    $0.right.greaterThanOrEqualTo(nextSubView.snp.left).offset(currentRightOffset + nextLeftOffset)
                 }
 
                 if mHeight == .wrap {
@@ -617,7 +622,7 @@ open class MLinView: UIView {
                     }
                 }
                 if i == mSubviews.count - 1 {
-                    if mWidth == .wrap || scrollerAble || attachBottom == true {
+                    if mWidth == .wrap || scrollerAble  || mSubviews.filter { $0.isHidden == false && $0.mWidth == .match }.count > 0 {
                         $0.right.equalToSuperview().offset(rightOffset)
                     }
                 }
