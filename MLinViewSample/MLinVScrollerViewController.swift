@@ -10,12 +10,9 @@ import UIKit
 
 class MLinVScrollerViewController: BaseViewController {
     /// 创建一个垂直方向的线性布局，宽高铺满父布局
-    open lazy var _scroller = MLinView._scroller(view) => { it in
+    open lazy var _linear = MLinView._scroller(view) => { it in
+        it._mLinView.safeEdge = true
         it.backgroundColor = color_gray_F5
-    }
-    
-    open lazy var _linear = _scroller._mLinView => { it in
-            it.safeEdge = true
     }
     
     /// 符号 => 是扩展的符号，不在需要临时变量存放。

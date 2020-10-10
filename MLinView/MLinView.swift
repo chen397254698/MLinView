@@ -163,7 +163,7 @@ open class MLinView: UIView {
 
     fileprivate var mSubviewsAttach = Array<UIView>()
 
-    /// 滚动方向
+    /// 排列方向
     public var orientation: Orientation = .vertical
 
     public var scrollerAble = false
@@ -223,14 +223,18 @@ open class MLinView: UIView {
         }
     }
 
-    public class func _scroller(_ view: UIView, autoAttach: Bool = true) -> MLinScrollView {
-        MLinScrollView() => { it in
-            view.addSubview(it)
+    public class func _scroller(_ superview: UIView, autoAttach: Bool = true, safeEdge: Bool = false) -> MLinScrollView {
+        MLinScrollView(safeEdge: safeEdge) => { it in
+            superview.addSubview(it)
             if autoAttach { it.snp.makeConstraints { $0.edges.equalToSuperview() } }
         }
     }
 
-    public func addBatch<T: UIView>(_ views: T..., mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, insets: UIEdgeInsets? = nil, mGravity: MGravity? = nil) {
+    public func addBatch(_ views: UIView..., mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, insets: UIEdgeInsets? = nil, mGravity: MGravity? = nil) {
+        addBatch(views, mWidth: mWidth, mHeight: mHeight, insets: insets, mGravity: mGravity)
+    }
+
+    public func addBatch(_ views: [UIView], mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, insets: UIEdgeInsets? = nil, mGravity: MGravity? = nil) {
         let lastView = mSubviews.last
 
         views.forEach {
@@ -247,7 +251,7 @@ open class MLinView: UIView {
 
         layoutSubview(lastView)
     }
-
+    
     public func attach<T: UIView>(_ views: T...) {
         views.forEach { super.addSubview($0) }
     }
@@ -376,7 +380,7 @@ open class MLinView: UIView {
                 if mHeight == .match {
                     $0.top.equalToSuperview()
                     if safeEdge {
-                        $0.bottom.equalTo(superview!.superview!.safeAreaLayoutGuide.snp.bottom)
+                        $0.bottom.equalTo(superview!.superview!.safeAreaLayoutGuide.snp.bottom).offset(-1	)
                     } else {
                         $0.bottom.equalToSuperview()
                     }
@@ -448,7 +452,7 @@ open class MLinView: UIView {
         if view != nil {
             guard let i: Int = mSubviews.firstIndex(where: { $0 == view }) else { return }
 
-            for index in max(0, i - 1) ... (i + 1) {
+            for index in max(0, i - 1) ... (i + 2) {
                 guard let subView = mSubviews.getOrNil(index) else { continue }
                 makeConstrain(subView, index, (index - i) < 2)
             }
@@ -629,11 +633,6 @@ open class MLinView: UIView {
                 }
             }
         }
-
-//
-//        guard let mlv = view as? MLinView else { return }
-//        mlv.layoutSubview()
-//        mlv.layoutIfNeeded()
     }
 
     override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
@@ -656,18 +655,21 @@ open class MLinView: UIView {
 }
 
 open class MLinScrollView: UIScrollView {
+    
+    private var safeEdge:Bool = false
     open lazy var _mLinView = MLinView(mWidth: .match, mHeight: .match) => { it in
         it.backgroundColor = color_gray_F5
         it.scrollerAble = true
+        it.safeEdge = safeEdge
     }
-
-    override public init(frame: CGRect) {
-        super.init(frame: frame)
-
+    
+    public init(safeEdge:Bool = false) {
+        super.init(frame: .zero)
+        self.safeEdge = safeEdge
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
         bounces = false
-        addSubview(_mLinView)
+        super.addSubview(_mLinView)
         backgroundColor = color_gray_F5
         _mLinView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
@@ -679,5 +681,21 @@ open class MLinScrollView: UIScrollView {
     override open func didMoveToSuperview() {
         super.didMoveToSuperview()
         _mLinView.didMoveToSuperview()
+    }
+    
+    override open func addSubview(_ view: UIView) {
+        _mLinView.addSubview(view)
+    }
+
+    public func addSubview(_ view: UIView, mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, mGravity: MGravity? = nil, forceLayout: Bool = true) {
+        _mLinView.addSubview(view, mWidth: mWidth, mHeight: mHeight, mGravity: mGravity, forceLayout: forceLayout)
+    }
+
+    public func insertSubview(_ view: UIView, _ index: Int, mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, mGravity: MGravity? = nil, forceLayout: Bool = true) {
+        _mLinView.insertSubview(view, index, mWidth: mWidth, mHeight: mHeight, mGravity: mGravity, forceLayout: forceLayout)
+    }
+    
+    public func addBatch(_ views: UIView..., mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, insets: UIEdgeInsets? = nil, mGravity: MGravity? = nil) {
+        _mLinView.addBatch(views, mWidth: mWidth, mHeight: mHeight, insets: insets, mGravity: mGravity)
     }
 }

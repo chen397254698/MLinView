@@ -24,6 +24,7 @@ open class SimpleTitleView: MLinView {
         it.text = "简介"
         it.textAlignment = .center
         it.mTop = 8
+        it.mHiddenTop = 0
         it.mWidth = .wrap
         it.mHeight = .wrap
     }
@@ -32,8 +33,6 @@ open class SimpleTitleView: MLinView {
         super.init(orientation: .vertical)
         
         addBatch(_title, _brief)
-        
-        backgroundColor = .red
         
         _brief.isUserInteractionEnabled = true
         _brief.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapBrief)))

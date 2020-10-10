@@ -14,7 +14,6 @@ open class SimpleItemView: MLinView {
         it.mHeight = .wrap
         it.mGravity = .center
         it.mLeft = 15
-        it.isHidden = true
     }
 
     lazy var _title = SimpleTitleView() => { it in
@@ -51,11 +50,17 @@ open class SimpleItemView: MLinView {
     
     
     @objc func tapTitle() {
-        _icon.isHidden = !_icon.isHidden
+        UIView.animate(withDuration: 1.2, animations: { [self] in
+            _icon.isHidden = !_icon.isHidden
+            layoutIfNeeded()
+        })
     }
     
     @objc func tapIcon() {
-        _title._brief.isHidden = !_title._brief.isHidden
+        UIView.animate(withDuration: 0.2, animations: { [self] in
+            _title._brief.isHidden = !_title._brief.isHidden
+            layoutIfNeeded()
+        })
     }
 
     public required init?(coder: NSCoder) {

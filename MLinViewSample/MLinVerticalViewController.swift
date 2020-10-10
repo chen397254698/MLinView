@@ -11,9 +11,7 @@ import UIKit
 class MLinVerticalViewController: BaseViewController {
     /// 创建一个垂直方向的线性布局，宽高铺满父布局
     
-    lazy var _scroller = MLinView._scroller(view)
-    
-    lazy var _linear = _scroller._mLinView
+    lazy var _linear = MLinView._scroller(view, safeEdge: true)
 
     /// 符号 => 是扩展的符号，不在需要临时变量存放。
     /// _topic 页面主题, 宽高自适应，居于线性布局的中部，父布局为垂直布局则水平居中，以此类推。 注意只有.wrap或者固定宽度
