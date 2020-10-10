@@ -448,13 +448,13 @@ open class MLinView: UIView {
         if view != nil {
             guard let i: Int = mSubviews.firstIndex(where: { $0 == view }) else { return }
 
-            for offset in 0 ... 2 {
-                guard let subView = mSubviews.getOrNil(i + offset) else { return }
-                makeConstrain(subView, i + offset)
+            for index in max(0, i - 1) ... (i + 1) {
+                guard let subView = mSubviews.getOrNil(index) else { continue }
+                makeConstrain(subView, index, (index - i) < 2)
             }
         } else {
             for (i, subView) in mSubviews.enumerated() {
-                makeConstrain(subView, i)
+                makeConstrain(subView, i, true)
             }
         }
 
@@ -463,7 +463,7 @@ open class MLinView: UIView {
         }
     }
 
-    func makeConstrain(_ view: UIView, _ i: Int) {
+    func makeConstrain(_ view: UIView, _ i: Int, _ clearNextCons: Bool) {
         view.snp.remakeConstraints {
             let isHidden = view.isHidden
 
@@ -501,12 +501,13 @@ open class MLinView: UIView {
                     let nextTopOffset = nextSubViewIsHidden ? 0 : nextSubView.mTop
 //
                     let currentBottomOffset = nextSubViewIsHidden ? hiddenBottomOffset : bottomOffset
-                    $0.right.greaterThanOrEqualTo(nextSubView.snp.left).offset(currentBottomOffset + nextTopOffset)
+
+                    if clearNextCons { nextSubView.snp.removeConstraints() }
+                    $0.right.greaterThanOrEqualTo(nextSubView.snp.left).offset(-currentBottomOffset - nextTopOffset)
                 }
-                
+
                 if i == mSubviews.count - 1 {
-                    
-                    if mHeight == .wrap || scrollerAble || mSubviews.filter { $0.isHidden == false && $0.mWidth == .match }.count > 0{
+                    if mHeight == .wrap || scrollerAble || mSubviews.filter { $0.isHidden == false && $0.mWidth == .match }.count > 0 {
                         $0.bottom.equalToSuperview().offset(bottomOffset)
                     }
                 }
@@ -548,10 +549,9 @@ open class MLinView: UIView {
                 }
 
             } else {
-                
                 let hiddenLeftOffset = isHidden ? 0 : (view.mHiddenLeft != nil ? view.mHiddenLeft! : view.mLeft)
                 let hiddenRightOffset = isHidden ? 0 : (view.mHiddenRight != nil ? -view.mHiddenRight! : -view.mRight)
-                
+
                 var constraint: Constraint?
                 var attachBottom = false
                 if i <= 0 {
@@ -585,7 +585,8 @@ open class MLinView: UIView {
                     let nextLeftOffset = nextSubViewIsHidden ? 0 : nextSubView.mLeft
 
                     let currentRightOffset = nextSubViewIsHidden ? hiddenRightOffset : rightOffset
-                    $0.right.greaterThanOrEqualTo(nextSubView.snp.left).offset(currentRightOffset + nextLeftOffset)
+                    if clearNextCons { nextSubView.snp.removeConstraints() }
+                    $0.right.greaterThanOrEqualTo(nextSubView.snp.left).offset(currentRightOffset - nextLeftOffset)
                 }
 
                 if mHeight == .wrap {
@@ -622,18 +623,31 @@ open class MLinView: UIView {
                     }
                 }
                 if i == mSubviews.count - 1 {
-                    if mWidth == .wrap || scrollerAble  || mSubviews.filter { $0.isHidden == false && $0.mWidth == .match }.count > 0 {
+                    if mWidth == .wrap || scrollerAble || mSubviews.filter { $0.isHidden == false && $0.mWidth == .match }.count > 0 {
                         $0.right.equalToSuperview().offset(rightOffset)
                     }
                 }
             }
         }
+
+//
+//        guard let mlv = view as? MLinView else { return }
+//        mlv.layoutSubview()
+//        mlv.layoutIfNeeded()
     }
 
     override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "hidden" && context == &UIView.mContext {
-            layoutSubview(object as? UIView)
+            if containMLinView() {
+                layoutSubview()
+            } else {
+                layoutSubview(object as? UIView)
+            }
         }
+    }
+
+    private func containMLinView() -> Bool {
+        return mSubviews.first { $0.isKind(of: MLinView.self) } != nil
     }
 
     deinit {

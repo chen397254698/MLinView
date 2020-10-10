@@ -245,7 +245,7 @@ class MLinVerticalViewController: BaseViewController {
         // Do any additional setup after loading the view.
         title = "垂直线性布局"
         
-        _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn, _vScrollerBtn, _nestBtn, _compressHugging, _attachText, _space)
+        _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn, _vScrollerBtn, _nestBtn, _compressHugging, _attachText,  SimpleItemView(), _space)
 
         view.addSubview(_nextBtn)
         _nextBtn.snp.makeConstraints {

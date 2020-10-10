@@ -67,44 +67,6 @@ class CompressHuggingViewController: BaseViewController {
         
         _test1.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         _test2.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-//        _test1.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-//        _test1.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-//        _test2.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-//        _test22.setContentCompressionResistancePriority(UILayoutPriority(19), for: .horizontal)
-//        view.addSubview(_test1)
-//        view.addSubview(_test2)
-//        view.addSubview(_test3)
-//        view.addSubview(_test4)
-        
-//        view.addSubview(_compairView)
-//        _compairView.snp.makeConstraints{
-//            $0.width.equalToSuperview()
-//            $0.height.equalTo(50)
-//            $0.top.equalTo(_linear.snp.bottom)
-//        }
-//
-//        _compairView.addSubview(_test3)
-//        _compairView.addSubview(_test22)
-//        _compairView.addSubview(_test4)
-//        
-//        _test3.snp.makeConstraints{
-//            $0.left.height.equalToSuperview()
-//            $0.right.greaterThanOrEqualTo(_test22.snp.left)
-//        }
-//        
-//        _test22.snp.makeConstraints{
-//            $0.height.equalToSuperview()
-//            $0.left.greaterThanOrEqualTo(_test3.snp.right)
-//            $0.right.greaterThanOrEqualTo(_test4.snp.left)
-//        }
-//        _test4.snp.makeConstraints{
-//            $0.right.height.equalToSuperview()
-//            $0.left.greaterThanOrEqualTo(_test22.snp.right)
-//        }
-//        
-//        _test22.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-//        _test3.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-//        print(_test4.contentHuggingPriority(for: .vertical))
            
 
     }
