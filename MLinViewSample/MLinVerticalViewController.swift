@@ -255,6 +255,18 @@ class MLinVerticalViewController: BaseViewController {
 
         it.mConstraints = [MCons(_icon, .topToTop, .leftToRight), MCons(.parent, .topToTop, .leftToLeft, hiddenView: _icon)]
     }
+    
+    lazy var _redPoint = UIView() => { it in
+        it.backgroundColor = .red
+        it.mWidth = 10
+        it.mHeight = 10
+        it.layer.cornerRadius = 5
+        it.layer.masksToBounds = true
+        it.mTop = -5
+        it.mRight = -5
+        
+        it.mConstraints = [MCons(_showHideBtn, .rightToRight, .topToTop)]
+    }
 
     lazy var _space = UIView() => { it in
         it.mWidth = .match
@@ -266,7 +278,7 @@ class MLinVerticalViewController: BaseViewController {
         // Do any additional setup after loading the view.
         title = "垂直线性布局"
 
-        _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn, _vScrollerBtn, _nestBtn, _compressHugging, _showLayoutBtn, _attachText, SimpleItemView(), _space)
+        _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn, _vScrollerBtn, _nestBtn, _compressHugging, _showLayoutBtn, _attachText, SimpleItemView(),_redPoint, _space)
 
         view.addSubview(_nextBtn)
         _nextBtn.snp.makeConstraints {

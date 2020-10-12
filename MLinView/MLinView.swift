@@ -251,7 +251,7 @@ open class MLinView: UIView {
         layoutSubview(lastView)
     }
 
-    public func attach<T: UIView>(_ views: T...) {
+    public func attach(_ views: UIView...) {
         views.forEach { super.addSubview($0) }
     }
 
