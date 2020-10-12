@@ -21,7 +21,7 @@ open class SimpleItemView: MLinView {
         it.mLeft = 15
         it.mRight = 15
         it.mWidth = .match
-        it.mHeight = .match
+        it.mHeight = .wrap
         it.mGravity = .center
     }
 
@@ -38,10 +38,9 @@ open class SimpleItemView: MLinView {
     lazy var _title = UILabel() => { it in
         it.font = UIFont.systemFont(ofSize: 17)
         it.textColor = color_gray_22
-        it.text = "标题"
+        it.text = "MLinView主干布局"
         it.mWidth = .wrap
         it.mHeight = .match
-        it.backgroundColor = .red
     }
 
     lazy var _brief = UILabel() => { it in

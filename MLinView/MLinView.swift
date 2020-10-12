@@ -223,10 +223,9 @@ open class MLinView: UIView {
         }
     }
 
-    public class func _scroller(_ superview: UIView, autoAttach: Bool = true, safeEdge: Bool = false) -> MLinScrollView {
+    public class func _scroller(_ superview: UIView, safeEdge: Bool = false) -> MLinScrollView {
         MLinScrollView(safeEdge: safeEdge) => { it in
             superview.addSubview(it)
-            if autoAttach { it.snp.makeConstraints { $0.edges.equalToSuperview() } }
         }
     }
 
@@ -369,7 +368,7 @@ open class MLinView: UIView {
     override open func didMoveToSuperview() {
         super.didMoveToSuperview()
         if scrollerAble && superview?.superview != nil {
-            superview?.snp.makeConstraints {
+            superview?.snp.remakeConstraints {
                 if mWidth == .match {
                     $0.width.equalToSuperview()
                 } else if mWidth == .wrap {
@@ -380,7 +379,7 @@ open class MLinView: UIView {
                 if mHeight == .match {
                     $0.top.equalToSuperview()
                     if safeEdge {
-                        $0.bottom.equalTo(superview!.superview!.safeAreaLayoutGuide.snp.bottom).offset(-1)
+                        $0.bottom.equalTo(superview!.superview!.safeAreaLayoutGuide.snp.bottom)
                     } else {
                         $0.bottom.equalToSuperview()
                     }
@@ -425,7 +424,7 @@ open class MLinView: UIView {
                     if mHeight == .match {
                         $0.top.equalToSuperview()
                         if safeEdge {
-                            $0.bottom.equalTo(superview!.safeAreaLayoutGuide.snp.bottom)
+                            $0.bottom.equalTo(superview!.safeAreaLayoutGuide.snp.bottom).offset(-1)
                         } else {
                             $0.bottom.equalToSuperview()
                         }
@@ -470,30 +469,27 @@ open class MLinView: UIView {
     func makeConstrain(_ view: UIView, _ i: Int, _ clearNextCons: Bool) {
         view.snp.remakeConstraints {
             let isHidden = view.isHidden
-
-            let topOffset = isHidden ? 0 : view.mTop
-
-            let bottomOffset = isHidden ? 0 : -view.mBottom
-
-            let leftOffset = isHidden ? 0 : view.mLeft
-
-            let rightOffset = isHidden ? 0 : -view.mRight
+            
+            let currentTopOffset = isHidden ? (view.mHiddenTop ?? 0) : view.mTop
+            
+            let currentBottomOffset = isHidden ? (view.mHiddenBottom ?? 0) : view.mBottom
+            
+            let currentLeftOffset = isHidden ? (view.mHiddenLeft ?? 0) : view.mLeft
+            
+            let currentRightOffset = isHidden ? (view.mHiddenRight ?? 0) : view.mRight
 
             if orientation == .vertical {
-                let hiddenTopOffset = isHidden ? 0 : (view.mHiddenTop != nil ? view.mHiddenTop! : view.mTop)
-                let hiddenBottomOffset = isHidden ? 0 : (view.mHiddenBottom != nil ? view.mHiddenBottom! : view.mBottom)
+                
+                
                 var constraint: Constraint?
                 if i <= 0 {
-                    constraint = $0.top.equalToSuperview().offset(topOffset).constraint
-
+                    constraint = $0.top.equalToSuperview().offset(currentTopOffset).constraint
                 } else {
                     let preSubView = mSubviews[i - 1]
 
                     let preSubViewIsHidden = preSubView.isHidden
 
-                    let preBottomOffset = preSubViewIsHidden ? 0 : preSubView.mBottom
-
-                    let currentTopOffset = preSubViewIsHidden ? hiddenTopOffset : topOffset
+                    let preBottomOffset = preSubViewIsHidden ? preSubView.mHiddenBottom ?? 0 : preSubView.mBottom
 
                     constraint = $0.top.greaterThanOrEqualTo(preSubView.snp.bottom).offset(currentTopOffset + preBottomOffset).constraint
                 }
@@ -502,9 +498,7 @@ open class MLinView: UIView {
                     let nextSubView = mSubviews[i + 1]
                     let nextSubViewIsHidden = nextSubView.isHidden
 
-                    let nextTopOffset = nextSubViewIsHidden ? 0 : nextSubView.mTop
-//
-                    let currentBottomOffset = nextSubViewIsHidden ? hiddenBottomOffset : bottomOffset
+                    let nextTopOffset = nextSubViewIsHidden ? nextSubView.mHiddenTop ?? 0 : nextSubView.mTop
 
                     if clearNextCons { nextSubView.snp.removeConstraints() }
                     $0.bottom.greaterThanOrEqualTo(nextSubView.snp.top).offset(-currentBottomOffset - nextTopOffset)
@@ -512,7 +506,7 @@ open class MLinView: UIView {
 
                 if i == mSubviews.count - 1 {
                     if mHeight == .wrap || scrollerAble || mSubviews.filter { $0.isHidden == false && $0.mHeight == .match }.count > 0 {
-                        $0.bottom.equalToSuperview().offset(bottomOffset)
+                        $0.bottom.equalToSuperview().offset(-currentBottomOffset)
                     }
                 }
 
@@ -531,15 +525,15 @@ open class MLinView: UIView {
                     }
 
                     if view.mWidth == .match {
-                        $0.left.equalToSuperview().offset(leftOffset)
-                        $0.right.equalToSuperview().offset(rightOffset)
+                        $0.left.equalToSuperview().offset(currentLeftOffset)
+                        $0.right.equalToSuperview().offset(-currentRightOffset)
                     } else {
                         if view.mGravity == .center {
                             $0.centerX.equalToSuperview().offset(isHidden ? 0 : (view.mLeft - view.mRight))
                         } else if view.mGravity == .right {
-                            $0.right.equalToSuperview().offset(rightOffset)
+                            $0.right.equalToSuperview().offset(-currentRightOffset)
                         } else {
-                            $0.left.equalToSuperview().offset(leftOffset)
+                            $0.left.equalToSuperview().offset(currentLeftOffset)
                         }
 
                         if view.mWidth >= 0 {
@@ -557,13 +551,12 @@ open class MLinView: UIView {
                 }
 
             } else {
-                let hiddenLeftOffset = isHidden ? 0 : (view.mHiddenLeft != nil ? view.mHiddenLeft! : view.mLeft)
-                let hiddenRightOffset = isHidden ? 0 : (view.mHiddenRight != nil ? -view.mHiddenRight! : -view.mRight)
 
                 var constraint: Constraint?
                 var attachBottom = false
                 if i <= 0 {
-                    constraint = $0.left.equalToSuperview().offset(leftOffset).constraint
+                    
+                    constraint = $0.left.equalToSuperview().offset(currentLeftOffset).constraint
 
                     if view.mWidth == .match {
                         constraint?.update(priority: .low)
@@ -574,9 +567,7 @@ open class MLinView: UIView {
 
                     let preSubViewIsHidden = preSubView.isHidden
 
-                    let preRightOffset = preSubViewIsHidden ? 0 : preSubView.mRight
-
-                    let currentLeftOffset = preSubViewIsHidden ? hiddenLeftOffset : leftOffset
+                    let preRightOffset = preSubViewIsHidden ? preSubView.mHiddenRight ?? 0 : preSubView.mRight
 
                     constraint = $0.left.greaterThanOrEqualTo(preSubView.snp.right).offset(currentLeftOffset + preRightOffset).constraint
 
@@ -590,11 +581,10 @@ open class MLinView: UIView {
                     let nextSubView = mSubviews[i + 1]
                     let nextSubViewIsHidden = nextSubView.isHidden
 
-                    let nextLeftOffset = nextSubViewIsHidden ? 0 : nextSubView.mLeft
+                    let nextLeftOffset = nextSubViewIsHidden ? nextSubView.mHiddenLeft ?? 0 : nextSubView.mLeft
 
-                    let currentRightOffset = nextSubViewIsHidden ? hiddenRightOffset : rightOffset
                     if clearNextCons { nextSubView.snp.removeConstraints() }
-                    $0.right.greaterThanOrEqualTo(nextSubView.snp.left).offset(currentRightOffset - nextLeftOffset)
+                    $0.right.greaterThanOrEqualTo(nextSubView.snp.left).offset(-currentRightOffset - nextLeftOffset)
                 }
 
                 if mHeight == .wrap {
@@ -619,8 +609,8 @@ open class MLinView: UIView {
                     }
 
                     if view.mHeight == .match {
-                        $0.top.equalToSuperview().offset(topOffset)
-                        $0.bottom.equalToSuperview().offset(bottomOffset)
+                        $0.top.equalToSuperview().offset(currentTopOffset)
+                        $0.bottom.equalToSuperview().offset(-currentBottomOffset)
                     } else {
                         if view.mHeight >= 0 {
                             $0.height.equalTo(view.mHeight)
@@ -628,15 +618,15 @@ open class MLinView: UIView {
                         if view.mGravity == .center {
                             $0.centerY.equalToSuperview().offset(isHidden ? 0 : (view.mTop - view.mBottom))
                         } else if view.mGravity == .bottom {
-                            $0.bottom.equalToSuperview().offset(bottomOffset)
+                            $0.bottom.equalToSuperview().offset(-currentBottomOffset)
                         } else {
-                            $0.top.equalToSuperview().offset(topOffset)
+                            $0.top.equalToSuperview().offset(currentTopOffset)
                         }
                     }
                 }
                 if i == mSubviews.count - 1 {
                     if mWidth == .wrap || scrollerAble || mSubviews.filter { $0.isHidden == false && $0.mWidth == .match }.count > 0 {
-                        $0.right.equalToSuperview().offset(rightOffset)
+                        $0.right.equalToSuperview().offset(-currentRightOffset)
                     }
                 }
             }

@@ -10,7 +10,7 @@ import UIKit
 
 class MLinVerticalViewController: BaseViewController {
     /// 创建一个垂直方向的线性布局，宽高铺满父布局
-    
+
     lazy var _linear = MLinView._scroller(view, safeEdge: true)
 
     /// 符号 => 是扩展的符号，不在需要临时变量存放。
@@ -53,6 +53,8 @@ class MLinVerticalViewController: BaseViewController {
         it.mWidth = .wrap
         it.mHeight = .wrap
         it.mGravity = .center
+        
+        it.mTop = 10
 
         it.backgroundColor = .red
     }
@@ -104,6 +106,27 @@ class MLinVerticalViewController: BaseViewController {
         it.layer.masksToBounds = true
         it.click { [unowned self] in
             self._icon.isHidden = !self._icon.isHidden
+        }
+
+        it.mHeight = 45
+        it.mTop = 20
+        it.mLeft = 30
+        it.mRight = 30
+    }
+
+    lazy var _showLayoutBtn = UIButton(type: .custom) => { it in
+        it.setBackgroundColor(color: color_white, forState: .normal)
+        it.setBackgroundColor(color: color_gray_ED, forState: .highlighted)
+        it.setBackgroundColor(color: color_white, forState: .disabled)
+        it.setTitle("布局对比演示", for: .normal)
+        it.setTitleColor(color_gray_22, for: .normal)
+        it.layer.cornerRadius = 5
+        it.layer.masksToBounds = true
+        it.layer.borderColor = color_gray_DD.cgColor
+        it.layer.borderWidth = 1
+        it.layer.masksToBounds = true
+        it.click { [unowned self] in
+            self.navigationController?.pushViewController(SimpleControllerView(), animated: true)
         }
 
         it.mHeight = 45
@@ -217,7 +240,7 @@ class MLinVerticalViewController: BaseViewController {
         it.mLeft = 30
         it.mRight = 30
     }
-    
+
     /// 让依附
     lazy var _attachText = UILabel(mWidth: .wrap, mHeight: .wrap, mGravity: .right) => { it in
         it.font = UIFont.systemFont(ofSize: 16)
@@ -227,12 +250,12 @@ class MLinVerticalViewController: BaseViewController {
         it.mTop = 10
         it.mRight = 10
         it.mLeft = 40
-        
+
         it.mHiddenTop = 20
 
         it.mConstraints = [MCons(_icon, .topToTop, .leftToRight), MCons(.parent, .topToTop, .leftToLeft, hiddenView: _icon)]
     }
-    
+
     lazy var _space = UIView() => { it in
         it.mWidth = .match
         it.mHeight = 100
@@ -242,8 +265,8 @@ class MLinVerticalViewController: BaseViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         title = "垂直线性布局"
-        
-        _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn, _vScrollerBtn, _nestBtn, _compressHugging, _attachText,  SimpleItemView(), _space)
+
+        _linear.addBatch(_topic, _content, _icon, _centerText, _leftText, _rightText, _showHideBtn, _addRemoveBtn, _vScrollerBtn, _nestBtn, _compressHugging, _showLayoutBtn, _attachText, SimpleItemView(), _space)
 
         view.addSubview(_nextBtn)
         _nextBtn.snp.makeConstraints {
