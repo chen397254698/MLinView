@@ -9,6 +9,7 @@
 import UIKit
 
 open class SimpleItemView: MLinView {
+    
     lazy var _icon = UIImageView(image: UIImage(named: "done_icon")) => { it in
         it.mWidth = .wrap
         it.mHeight = .wrap
