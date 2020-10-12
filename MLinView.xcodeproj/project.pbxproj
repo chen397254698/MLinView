@@ -10,7 +10,6 @@
 		186B67B203112C474FA95AB8 /* Pods_MLinView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D83FD509539C8FEEED0AA39 /* Pods_MLinView.framework */; };
 		742DF483249B56B600FEDABB /* ViewExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742DF482249B56B600FEDABB /* ViewExtention.swift */; };
 		742E0BD62531469100191A28 /* SimpleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E0BD52531469100191A28 /* SimpleItemView.swift */; };
-		742E0BD925315D5500191A28 /* SimpleTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742E0BD825315D5500191A28 /* SimpleTitleView.swift */; };
 		7430DDCC2498532C00824BB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DDCB2498532C00824BB5 /* AppDelegate.swift */; };
 		7430DDD02498532C00824BB5 /* MLinVerticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7430DDCF2498532C00824BB5 /* MLinVerticalViewController.swift */; };
 		7430DDD52498532E00824BB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7430DDD42498532E00824BB5 /* Assets.xcassets */; };
@@ -35,7 +34,6 @@
 		6798F30AABF4CEE4EAC4452E /* Pods-MLinView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLinView.release.xcconfig"; path = "Target Support Files/Pods-MLinView/Pods-MLinView.release.xcconfig"; sourceTree = "<group>"; };
 		742DF482249B56B600FEDABB /* ViewExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtention.swift; sourceTree = "<group>"; };
 		742E0BD52531469100191A28 /* SimpleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleItemView.swift; sourceTree = "<group>"; };
-		742E0BD825315D5500191A28 /* SimpleTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTitleView.swift; sourceTree = "<group>"; };
 		7430DDC82498532C00824BB5 /* MLinView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLinView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7430DDCB2498532C00824BB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7430DDCF2498532C00824BB5 /* MLinVerticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLinVerticalViewController.swift; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 		7430DDCA2498532C00824BB5 /* MLinViewSample */ = {
 			isa = PBXGroup;
 			children = (
-				742E0BD825315D5500191A28 /* SimpleTitleView.swift */,
 				7443E80624A09E8500FA44EA /* LaunchScreen.storyboard */,
 				7430DE032498761000824BB5 /* MLinVScrollerViewController.swift */,
 				7430DE01249874C600824BB5 /* MLinHScrollerViewController.swift */,
@@ -272,7 +269,6 @@
 				7430DE042498761000824BB5 /* MLinVScrollerViewController.swift in Sources */,
 				74AA7F8E25245BDD0000928B /* CompressHuggingViewController.swift in Sources */,
 				7430DDEE2498603500824BB5 /* SymbolExtention.swift in Sources */,
-				742E0BD925315D5500191A28 /* SimpleTitleView.swift in Sources */,
 				742DF483249B56B600FEDABB /* ViewExtention.swift in Sources */,
 				74AA7F8A2524552A0000928B /* MLinView.swift in Sources */,
 				7430DDD02498532C00824BB5 /* MLinVerticalViewController.swift in Sources */,

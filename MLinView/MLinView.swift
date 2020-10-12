@@ -251,7 +251,7 @@ open class MLinView: UIView {
 
         layoutSubview(lastView)
     }
-    
+
     public func attach<T: UIView>(_ views: T...) {
         views.forEach { super.addSubview($0) }
     }
@@ -380,7 +380,7 @@ open class MLinView: UIView {
                 if mHeight == .match {
                     $0.top.equalToSuperview()
                     if safeEdge {
-                        $0.bottom.equalTo(superview!.superview!.safeAreaLayoutGuide.snp.bottom).offset(-1	)
+                        $0.bottom.equalTo(superview!.superview!.safeAreaLayoutGuide.snp.bottom).offset(-1)
                     } else {
                         $0.bottom.equalToSuperview()
                     }
@@ -507,11 +507,11 @@ open class MLinView: UIView {
                     let currentBottomOffset = nextSubViewIsHidden ? hiddenBottomOffset : bottomOffset
 
                     if clearNextCons { nextSubView.snp.removeConstraints() }
-                    $0.right.greaterThanOrEqualTo(nextSubView.snp.left).offset(-currentBottomOffset - nextTopOffset)
+                    $0.bottom.greaterThanOrEqualTo(nextSubView.snp.top).offset(-currentBottomOffset - nextTopOffset)
                 }
 
                 if i == mSubviews.count - 1 {
-                    if mHeight == .wrap || scrollerAble || mSubviews.filter { $0.isHidden == false && $0.mWidth == .match }.count > 0 {
+                    if mHeight == .wrap || scrollerAble || mSubviews.filter { $0.isHidden == false && $0.mHeight == .match }.count > 0 {
                         $0.bottom.equalToSuperview().offset(bottomOffset)
                     }
                 }
@@ -549,6 +549,10 @@ open class MLinView: UIView {
 
                     if view.mHeight >= 0 {
                         $0.height.equalTo(view.mHeight)
+                    } else if view.mHeight == .wrap {
+                        view.setContentHuggingPriority(.defaultHigh, for: .vertical)
+                    } else {
+                        view.setContentHuggingPriority(.defaultLow, for: .vertical)
                     }
                 }
 
@@ -608,6 +612,10 @@ open class MLinView: UIView {
                 } else {
                     if view.mWidth >= 0 {
                         $0.width.equalTo(view.mWidth)
+                    } else if view.mWidth == .wrap {
+                        view.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+                    } else {
+                        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
                     }
 
                     if view.mHeight == .match {
@@ -655,15 +663,14 @@ open class MLinView: UIView {
 }
 
 open class MLinScrollView: UIScrollView {
-    
-    private var safeEdge:Bool = false
+    private var safeEdge: Bool = false
     open lazy var _mLinView = MLinView(mWidth: .match, mHeight: .match) => { it in
         it.backgroundColor = color_gray_F5
         it.scrollerAble = true
         it.safeEdge = safeEdge
     }
-    
-    public init(safeEdge:Bool = false) {
+
+    public init(safeEdge: Bool = false) {
         super.init(frame: .zero)
         self.safeEdge = safeEdge
         showsVerticalScrollIndicator = false
@@ -682,7 +689,7 @@ open class MLinScrollView: UIScrollView {
         super.didMoveToSuperview()
         _mLinView.didMoveToSuperview()
     }
-    
+
     override open func addSubview(_ view: UIView) {
         _mLinView.addSubview(view)
     }
@@ -694,7 +701,7 @@ open class MLinScrollView: UIScrollView {
     public func insertSubview(_ view: UIView, _ index: Int, mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, mGravity: MGravity? = nil, forceLayout: Bool = true) {
         _mLinView.insertSubview(view, index, mWidth: mWidth, mHeight: mHeight, mGravity: mGravity, forceLayout: forceLayout)
     }
-    
+
     public func addBatch(_ views: UIView..., mWidth: CGFloat? = nil, mHeight: CGFloat? = nil, insets: UIEdgeInsets? = nil, mGravity: MGravity? = nil) {
         _mLinView.addBatch(views, mWidth: mWidth, mHeight: mHeight, insets: insets, mGravity: mGravity)
     }
